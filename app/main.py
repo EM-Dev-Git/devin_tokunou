@@ -52,6 +52,7 @@ async def log_requests(request: Request, call_next):
             content={"detail": "Internal Server Error"}
         )
 
+
 @app.get("/")
 async def root():
     app_logger.info("Root endpoint accessed")

@@ -17,6 +17,7 @@ def get_request_id(request: Request) -> str:
         return str(uuid.uuid4())
 
 def get_openai_client():
+    """Initialize and return an OpenAI client with appropriate API key"""
     api_key = os.environ.get("OPENAI_API_KEY", DUMMY_OPENAI_API_KEY)
     return OpenAI(api_key=api_key)
 
