@@ -1,4 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
+from app.modules.item import get_all_items, get_item_by_id, create_new_item
+from app.schemas.item import ItemResponse, ItemsResponse
 
 router = APIRouter(
     prefix="/items",
@@ -6,21 +8,14 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-fake_items_db = {"plumbus": {"name": "Plumbus"}, "gun": {"name": "Portal Gun"}}
-
 @router.get("/")
 async def read_items():
-    return fake_items_db
+    return get_all_items()
 
 @router.get("/{item_id}")
 async def read_item(item_id: str):
-    if item_id not in fake_items_db:
-        raise HTTPException(status_code=404, description=f"Item {item_id} not found")
-    return fake_items_db[item_id]
+    return get_item_by_id(item_id)
 
-@router.post("/")
+@router.post("/", response_model=ItemResponse)
 async def create_item(item_id: str, name: str):
-    if item_id in fake_items_db:
-        raise HTTPException(status_code=400, description=f"Item {item_id} already exists")
-    fake_items_db[item_id] = {"name": name}
-    return {"item_id": item_id, "name": name}
+    return create_new_item(item_id, name)

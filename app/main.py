@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import items
+from app.routers import items, openai
 
 app = FastAPI(
     title="devin_tokunou API",
@@ -17,6 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(items.router)
+app.include_router(openai.router)
 
 @app.get("/")
 async def root():
