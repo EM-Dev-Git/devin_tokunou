@@ -5,6 +5,11 @@ import time
 import uuid
 from app.routers import items, openai
 from app.utils.logger import app_logger, api_logger
+from app.utils.config import (
+    CORS_ALLOW_ORIGINS, CORS_ALLOW_CREDENTIALS,
+    CORS_ALLOW_METHODS, CORS_ALLOW_HEADERS,
+    SERVER_HOST, SERVER_PORT, DEBUG
+)
 
 app = FastAPI(
     title="devin_tokunou API",
@@ -14,10 +19,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=CORS_ALLOW_ORIGINS,
+    allow_credentials=CORS_ALLOW_CREDENTIALS,
+    allow_methods=CORS_ALLOW_METHODS,
+    allow_headers=CORS_ALLOW_HEADERS,
 )
 
 app.include_router(items.router)
@@ -74,4 +79,4 @@ async def global_exception_handler(request: Request, exc: Exception):
 if __name__ == "__main__":
     app_logger.info("Starting FastAPI application")
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host=SERVER_HOST, port=SERVER_PORT, reload=DEBUG)
