@@ -1,13 +1,11 @@
-import os
 import uuid
 from fastapi import Request, HTTPException
 from openai import OpenAI
 from app.schemas.openai import ChatCompletionRequest
 from logging import getLogger
+from app.utils.config import OPENAI_API_KEY
 
 api_logger = getLogger("devin_tokunou_api.api")
-
-DUMMY_OPENAI_API_KEY = "sk-dummy-api-key-for-development-purposes-only"
 
 def get_request_id(request: Request) -> str:
     """Get request ID from state or generate a new one if not present"""
@@ -18,8 +16,7 @@ def get_request_id(request: Request) -> str:
 
 def get_openai_client():
     """Initialize and return an OpenAI client with appropriate API key"""
-    api_key = os.environ.get("OPENAI_API_KEY", DUMMY_OPENAI_API_KEY)
-    return OpenAI(api_key=api_key)
+    return OpenAI(api_key=OPENAI_API_KEY)
 
 def create_chat_completion(request: Request, chat_request: ChatCompletionRequest):
     """Create a chat completion using OpenAI API"""

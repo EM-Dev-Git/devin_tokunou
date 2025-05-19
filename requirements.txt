@@ -12,3 +12,4 @@ anyio<5,>=3.6.2
 idna>=2.8
 sniffio>=1.1
 openai
+python-dotenv==1.0.0
