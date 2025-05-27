@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import time
 import uuid
-from app.routers import items, openai
+from app.routers import items, openai, auth
 from app.utils.logger import app_logger, api_logger
 
 app = FastAPI(
@@ -22,6 +22,7 @@ app.add_middleware(
 
 app.include_router(items.router)
 app.include_router(openai.router)
+app.include_router(auth.router)
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
